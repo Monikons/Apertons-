@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apertons - IT решения для бизнеса</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <div class="logo">APERTONS</div>
+            <nav class="nav">
+                <a href="#about" class="nav-link">О нас</a>
+                <a href="#services" class="nav-link">Услуги</a>
+                <a href="#cases" class="nav-link">Кейсы</a>
+                <a href="#contacts" class="nav-link">Контакты</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">Мы увлечены передовыми технологиями...</h1>
+            <p class="hero-subtitle">Создаем IT-решения для роста вашего бизнеса</p>
+            <button class="btn-primary">Присоединиться</button>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">О компании</h2>
+            <div class="about-content">
+                <p>Apertons - это команда экспертов, которая помогает бизнесу внедрять инновационные технологии.</p>
+                <p>Мы ценим прозрачность, качество и индивидуальный подход к каждому клиенту.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Наши услуги</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">💻</div>
+                    <h3>Дизайн и кастомизация ПО</h3>
+                    <p>Создаем программное обеспечение под ваши уникальные бизнес-процессы.</p>
+                    <button class="btn-secondary">Подробнее</button>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">☁️</div>
+                    <h3>Облачные решения и инфраструктура</h3>
+                    <p>Надежные IT-инфраструктуры и системы аварийного восстановления.</p>
+                    <button class="btn-secondary">Подробнее</button>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">⚖️</div>
+                    <h3>Юридическое сопровождение ПО</h3>
+                    <p>Помощь в вопросах авторского права и лицензирования программ.</p>
+                    <button class="btn-secondary">Подробнее</button>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🤖</div>
+                    <h3>AI решения и интеграция</h3>
+                    <p>Внедрение искусственного интеллекта и обучение сотрудников.</p>
+                    <button class="btn-secondary">Подробнее</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cases" class="cases">
+        <div class="container">
+            <h2 class="section-title">Наши кейсы</h2>
+            <div class="cases-grid">
+                <div class="case-card">
+                    <h3>Оптимизация ERP-системы</h3>
+                    <p>Для крупного розничного ритейлера</p>
+                </div>
+                <div class="case-card">
+                    <h3>Миграция в облако</h3>
+                    <p>Для сети ресторанов</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacts" class="contacts">
+        <div class="container">
+            <h2 class="section-title">Контакты</h2>
+            <div class="contacts-content">
+                <div class="contacts-info">
+                    <p>Email: info@apertons.com</p>
+                    <p>Телефон: +7 (123) 456-78-90</p>
+                    <p>Адрес: г. Москва, ул. Технологическая, 42</p>
+                </div>
+                <form class="contact-form" id="contactForm">
+                    <input type="text" id="name" placeholder="Ваше имя" required>
+                    <input type="email" id="email" placeholder="Email" required>
+                    <textarea id="message" placeholder="Ваше сообщение" required></textarea>
+                    <button type="submit" class="btn-primary">Отправить</button>
+                </form>
+            </div>
+
+            <!-- Скрытая таблица -->
+            <div id="admin-panel" style="display: none; margin-top: 20px;">
+                <p>Добро пожаловать, админ!</p>
+                <div id="submissions-table"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2023 Apertons. Все права защищены.</p>
+        </div>
+    </footer>
+    <script>
+    async function loadSubmissions() {
+        try {
+            const response = await fetch('http://localhost:5000/submissions');
+            const data = await response.json();
+
+            let html = '<h3>Полученные заявки</h3><table border="1"><tr><th>Имя</th><th>Email</th><th>Сообщение</th><th>Дата</th></tr>';
+            data.forEach(item => {
+                html += `<tr>
+                    <td>${item.name}</td>
+                    <td>${item.email}</td>
+                    <td>${item.message}</td>
+                    <td>${item.timestamp}</td>
+                </tr>`;
+            });
+            html += '</table>';
+
+            document.getElementById('submissions-table').innerHTML = html;
+        } catch (error) {
+            console.error('Ошибка при загрузке заявок:', error);
+        }
+    }
+
+    function showAdminPanel() {
+        const password = prompt("Введите пароль администратора:");
+        if (password === "1234") {
+            document.getElementById("admin-panel").style.display = "block";
+            loadSubmissions();
+        } else {
+            alert("Неверный пароль");
+        }
+    }
+
+    // Добавляем кнопку админ-панели только при нужной комбинации
+    document.addEventListener('keydown', function (e) {
+        if (e.ctrlKey && e.altKey && e.key === 'a') { // Ctrl + Alt + A
+            if (!document.getElementById('admin-button')) {
+                const btn = document.createElement('button');
+                btn.textContent = 'Админ-панель';
+                btn.className = 'btn-secondary';
+                btn.id = 'admin-button';
+                btn.style.marginTop = '30px';
+                btn.onclick = showAdminPanel;
+
+                const contactsSection = document.querySelector('#contacts .container');
+                contactsSection.appendChild(btn);
+            }
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('contactForm');
+
+        if (form) {
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const message = document.getElementById('message').value.trim();
+
+                try {
+                    const response = await fetch('http://localhost:5000/submit', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ name, email, message })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.status === 'success') {
+                        alert('Спасибо! Ваша заявка сохранена.');
+                        form.reset();
+                    } else {
+                        alert('Ошибка: ' + result.message);
+                    }
+                } catch (error) {
+                    console.error('Ошибка:', error);
+                    alert('Ошибка соединения. Проверьте консоль.');
+                }
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
